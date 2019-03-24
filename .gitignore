@@ -50,3 +50,12 @@ encoded.wav
 *.swp
 *.*~
 
+/CMakeFiles/
+
+# Output from cmake .
+*.vcxproj
+*.sln
+*.vcxproj.filters
+CMakeCache.txt
+cmake_install.cmake
+
