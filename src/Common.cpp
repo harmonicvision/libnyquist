@@ -118,7 +118,9 @@ void NyquistIO::AddDecoderToTable(std::shared_ptr<nqr::BaseDecoder> decoder)
 void NyquistIO::BuildDecoderTable()
 {
     AddDecoderToTable(std::make_shared<WavDecoder>());
+#ifndef NO_WAVPACK
     AddDecoderToTable(std::make_shared<WavPackDecoder>());
+#endif
     AddDecoderToTable(std::make_shared<FlacDecoder>());
     AddDecoderToTable(std::make_shared<VorbisDecoder>());
     AddDecoderToTable(std::make_shared<OpusDecoder>());

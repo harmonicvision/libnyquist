@@ -76,6 +76,7 @@ namespace nqr
         virtual std::vector<std::string> GetSupportedFileExtensions() override final;
     };
 
+#ifndef NO_WAVPACK
     struct WavPackDecoder final : public nqr::BaseDecoder
     {
         WavPackDecoder() = default;
@@ -84,6 +85,7 @@ namespace nqr
         virtual void LoadFromBuffer(nqr::AudioData * data, const std::vector<uint8_t> & memory) override final;
         virtual std::vector<std::string> GetSupportedFileExtensions() override final;
     };
+#endif
 
     struct VorbisDecoder final : public nqr::BaseDecoder
     {

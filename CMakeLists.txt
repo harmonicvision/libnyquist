@@ -88,6 +88,8 @@ if(MSVC)
     _add_define("NOMINMAX")
 endif()
 
+_add_define("NO_WAVPACK")
+
 add_definitions(${_NQR_CXX_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${_NQR_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
 
@@ -147,9 +149,62 @@ endif()
 
 project(libnyquist)
 
+#  ////////////////////////////////////////////////////////////
+#-- https://stackoverflow.com/questions/10113017/setting-the-msvc-runtime-in-cmake
+
+macro(configure_msvc_runtime)
+  if(MSVC)
+
+    # Default to statically-linked runtime.
+    if("${MSVC_RUNTIME}" STREQUAL "")
+      set(MSVC_RUNTIME "static")
+    endif()
+
+    # Set compiler options.
+    set(variables
+      CMAKE_C_FLAGS_DEBUG
+      CMAKE_C_FLAGS_MINSIZEREL
+      CMAKE_C_FLAGS_RELEASE
+      CMAKE_C_FLAGS_RELWITHDEBINFO
+      CMAKE_CXX_FLAGS_DEBUG
+      CMAKE_CXX_FLAGS_MINSIZEREL
+      CMAKE_CXX_FLAGS_RELEASE
+      CMAKE_CXX_FLAGS_RELWITHDEBINFO
+    )
+    if(${MSVC_RUNTIME} STREQUAL "static")
+      message(STATUS
+        "MSVC -> forcing use of statically-linked runtime."
+      )
+      foreach(variable ${variables})
+        if(${variable} MATCHES "/MD")
+          string(REGEX REPLACE "/MD" "/MT" ${variable} "${${variable}}")
+        endif()
+      endforeach()
+    else()
+      message(STATUS
+        "MSVC -> forcing use of dynamically-linked runtime."
+      )
+      foreach(variable ${variables})
+        if(${variable} MATCHES "/MT")
+          string(REGEX REPLACE "/MT" "/MD" ${variable} "${${variable}}")
+        endif()
+      endforeach()
+    endif()
+  endif()
+endmacro()
+
+configure_msvc_runtime()
+
+_add_define("NO_WAVPACK")
+
+#  ////////////////////////////////////////////////////////////
+
+
+
 file(GLOB nyquist_include "${LIBNYQUIST_ROOT}/include/libnyquist/*")
 file(GLOB nyquist_src     "${LIBNYQUIST_ROOT}/src/*")
 # file(GLOB wavpack_src     "${LIBNYQUIST_ROOT}/third_party/wavpack/src/*")
+list(REMOVE_ITEM nyquist_src "${LIBNYQUIST_ROOT}/src/WavPackDecoder.cpp")
 
 add_library(libnyquist STATIC
     ${nyquist_include} 
