@@ -73,7 +73,7 @@ source_group(src/ FILES ${third_opus_src})
 
 # libwavpack
 
-project(libwavpack)
+# project(libwavpack)
 
 if(MSVC)
     # Disable warning C4996 regarding fopen(), strcpy(), etc.
@@ -91,12 +91,12 @@ endif()
 add_definitions(${_NQR_CXX_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${_NQR_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
 
-file(GLOB third_wavpack_src "${LIBNYQUIST_ROOT}/third_party/wavpack/src/*")
+# file(GLOB third_wavpack_src "${LIBNYQUIST_ROOT}/third_party/wavpack/src/*")
 
-add_library(libwavpack STATIC ${third_wavpack_src})
+# add_library(libwavpack STATIC ${third_wavpack_src})
 
-set_cxx_version(libwavpack)
-_set_compile_options(libwavpack)
+# set_cxx_version(libwavpack)
+# _set_compile_options(libwavpack)
 
 if (WIN32)
     _disable_warning(181)
@@ -119,27 +119,27 @@ if (WIN32)
     _disable_warning(4703)
 endif()
 
-target_include_directories(libwavpack PRIVATE ${LIBNYQUIST_ROOT}/third_party/wavpack/include)
+# target_include_directories(libwavpack PRIVATE ${LIBNYQUIST_ROOT}/third_party/wavpack/include)
 
-if (MSVC_IDE)
-    set_target_properties(libwavpack PROPERTIES IMPORT_PREFIX "../")
-endif()
+# if (MSVC_IDE)
+    # set_target_properties(libwavpack PROPERTIES IMPORT_PREFIX "../")
+# endif()
 
-set_target_properties(libwavpack
-    PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-)
+# set_target_properties(libwavpack
+#     PROPERTIES
+#     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+#     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+#     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+# )
 
-set_target_properties(libwavpack PROPERTIES OUTPUT_NAME_DEBUG libwavpack_d)
+# set_target_properties(libwavpack PROPERTIES OUTPUT_NAME_DEBUG libwavpack_d)
 
-install(TARGETS libwavpack
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-        RUNTIME DESTINATION bin)
+# install(TARGETS libwavpack
+#         LIBRARY DESTINATION lib
+#         ARCHIVE DESTINATION lib
+#         RUNTIME DESTINATION bin)
 
-install (TARGETS libwavpack DESTINATION lib)
+    # install (TARGETS libwavpack DESTINATION lib)
 
 #-------------------------------------------------------------------------------
 
@@ -149,7 +149,7 @@ project(libnyquist)
 
 file(GLOB nyquist_include "${LIBNYQUIST_ROOT}/include/libnyquist/*")
 file(GLOB nyquist_src     "${LIBNYQUIST_ROOT}/src/*")
-file(GLOB wavpack_src     "${LIBNYQUIST_ROOT}/third_party/wavpack/src/*")
+# file(GLOB wavpack_src     "${LIBNYQUIST_ROOT}/third_party/wavpack/src/*")
 
 add_library(libnyquist STATIC
     ${nyquist_include} 
@@ -179,7 +179,7 @@ target_include_directories(libnyquist PRIVATE
     ${LIBNYQUIST_ROOT}/third_party/opus/opusfile/src/include
     ${LIBNYQUIST_ROOT}/third_party/opus/silk
     ${LIBNYQUIST_ROOT}/third_party/opus/silk/float
-    ${LIBNYQUIST_ROOT}/third_party/wavpack/include
+    #    ${LIBNYQUIST_ROOT}/third_party/wavpack/include
     ${LIBNYQUIST_ROOT}/src
 )
 
@@ -260,6 +260,6 @@ if(BUILD_EXAMPLE)
         RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
     )
 
-    target_link_libraries(${NQR_EXAMPLE_APP_NAME} PUBLIC libnyquist libopus libwavpack)
+# target_link_libraries(${NQR_EXAMPLE_APP_NAME} PUBLIC libnyquist libopus libwavpack)
 
 endif()
