@@ -45,3 +45,8 @@ DerivedData
 *.opendb
 
 encoded.wav
+
+# vim
+*.swp
+*.*~
+
